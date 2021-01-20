@@ -51,7 +51,11 @@ class Botones extends StatelessWidget {
                   width: 50,
                   child: InkWell(
                     child: Concha(),
-                    onTap: () {},
+                    onTap: () {
+                      context
+                          .bloc<Mayanum>()
+                          .agregarConcha(estado.seleccionado);
+                    },
                   ),
                 ),
               ],
@@ -87,7 +91,9 @@ class Botones extends StatelessWidget {
                   width: 50,
                   child: InkWell(
                     child: Concha(),
-                    onTap: () {},
+                    onTap: () {
+                      context.bloc<Mayanum>().quitarConcha(estado.seleccionado);
+                    },
                   ),
                 ),
               ],

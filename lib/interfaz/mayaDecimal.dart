@@ -23,18 +23,35 @@ class MayaDecimal extends StatelessWidget {
               child: Container(
             child: Column(
               children: [
-                Nivel(3, estado.listaPuntos3, estado.listaLinea3),
-                Nivel(2, estado.listaPuntos2, estado.listaLinea2),
-                Nivel(1, estado.listaPuntos1, estado.listaLinea1),
+                Nivel(
+                    3, estado.listaPuntos3, estado.listaLinea3, estado.concha3),
+                Nivel(
+                    2, estado.listaPuntos2, estado.listaLinea2, estado.concha2),
+                Nivel(
+                    1, estado.listaPuntos1, estado.listaLinea1, estado.concha1),
               ],
             ),
-            color: Colors.blue,
           )),
           Expanded(
-              child: Container(
-            child: Text('El numero a representar es el ${estado.randomNumber}'),
-            color: Colors.green,
-          )),
+            child: Container(
+              height: 100,
+              width: 100,
+              decoration: new BoxDecoration(
+                color: Colors.white,
+                shape: BoxShape.circle,
+                border: new Border.all(
+                  color: Colors.white,
+                  width: 2.5,
+                ),
+              ),
+              child: new Center(
+                child: new Text(
+                  "${estado.randomNumber}",
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+                ),
+              ),
+            ),
+          ),
         ],
       );
     });

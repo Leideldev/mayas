@@ -24,15 +24,17 @@ class Mayanum extends Cubit<EstadoMaya> {
       ));
     } else {
       emit(state.copyWith(
-        pantallaDecimalMaya: true,
-        pantallaMayaDecimal: false,
-      ));
+          pantallaDecimalMaya: true,
+          pantallaMayaDecimal: false,
+          concha1: null,
+          concha2: null,
+          concha3: null));
     }
   }
 
   agregarPunto(int seleccionado) {
     List<Punto> lista = [];
-    if (state.listaPuntos1.length == 4) {
+    if (state.listaPuntos1.length == 4 || state.concha1 != null) {
       emit(state.copyWith(listaPuntos1: state.listaPuntos1));
     } else {
       if (seleccionado == 1) {
@@ -41,7 +43,7 @@ class Mayanum extends Cubit<EstadoMaya> {
         emit(state.copyWith(listaPuntos1: lista));
       }
     }
-    if (state.listaPuntos2.length == 4) {
+    if (state.listaPuntos2.length == 4 || state.concha2 != null) {
       emit(state.copyWith(listaPuntos2: state.listaPuntos2));
     } else {
       if (seleccionado == 2) {
@@ -50,7 +52,7 @@ class Mayanum extends Cubit<EstadoMaya> {
         emit(state.copyWith(listaPuntos2: lista));
       }
     }
-    if (state.listaPuntos3.length == 4) {
+    if (state.listaPuntos3.length == 4 || state.concha3 != null) {
       emit(state.copyWith(listaPuntos3: state.listaPuntos3));
     } else {
       if (seleccionado == 3) {
@@ -92,9 +94,33 @@ class Mayanum extends Cubit<EstadoMaya> {
     }
   }
 
+  quitarConcha(int seleccionado) {
+    if (state.concha1 == null) {
+      emit(state.copyWith());
+    } else {
+      if (seleccionado == 1) {
+        emit(state.copyWith(concha1: null));
+      }
+    }
+    if (state.concha2 == null) {
+      emit(state.copyWith());
+    } else {
+      if (seleccionado == 2) {
+        emit(state.copyWith(concha2: null));
+      }
+    }
+    if (state.concha3 == null) {
+      emit(state.copyWith());
+    } else {
+      if (seleccionado == 3) {
+        emit(state.copyWith(concha3: null));
+      }
+    }
+  }
+
   agregarLinea(int seleccionado) {
     List<Linea> lista = [];
-    if (state.listaLinea1.length == 3) {
+    if (state.listaLinea1.length == 3 || state.concha1 != null) {
       emit(state.copyWith(listaLinea1: state.listaLinea1));
     } else {
       if (seleccionado == 1) {
@@ -103,7 +129,7 @@ class Mayanum extends Cubit<EstadoMaya> {
         emit(state.copyWith(listaLinea1: lista));
       }
     }
-    if (state.listaLinea2.length == 3) {
+    if (state.listaLinea2.length == 3 || state.concha2 != null) {
       emit(state.copyWith(listaLinea2: state.listaLinea2));
     } else {
       if (seleccionado == 2) {
@@ -112,13 +138,44 @@ class Mayanum extends Cubit<EstadoMaya> {
         emit(state.copyWith(listaLinea2: lista));
       }
     }
-    if (state.listaLinea3.length == 3) {
+    if (state.listaLinea3.length == 3 || state.concha3 != null) {
       emit(state.copyWith(listaLinea3: state.listaLinea3));
     } else {
       if (seleccionado == 3) {
         lista.add(Linea());
         lista.addAll(state.listaLinea3);
         emit(state.copyWith(listaLinea3: lista));
+      }
+    }
+  }
+
+  agregarConcha(int seleccionado) {
+    Concha concha = Concha();
+    if (state.concha1 != null ||
+        state.listaPuntos1.length > 0 ||
+        state.listaLinea1.length > 0) {
+      emit(state.copyWith());
+    } else {
+      if (seleccionado == 1) {
+        emit(state.copyWith(concha1: concha));
+      }
+    }
+    if (state.concha2 != null ||
+        state.listaPuntos2.length > 0 ||
+        state.listaLinea2.length > 0) {
+      emit(state.copyWith());
+    } else {
+      if (seleccionado == 2) {
+        emit(state.copyWith(concha2: concha));
+      }
+    }
+    if (state.concha3 != null ||
+        state.listaPuntos3.length > 0 ||
+        state.listaLinea3.length > 0) {
+      emit(state.copyWith());
+    } else {
+      if (seleccionado == 3) {
+        emit(state.copyWith(concha3: concha));
       }
     }
   }
@@ -175,6 +232,10 @@ class Mayanum extends Cubit<EstadoMaya> {
     emit(state.copyWith(randomNumber: Random().nextInt(8000)));
   }
 
+  generarNuevoRandomMaya() {
+    emit(state.copyWith(randomMayadec: Random().nextInt(401)));
+  }
+
   checarCorrecto() {
     if (state.randomNumber == calcularNumeroMayaDecimal()) {
       return true;
@@ -183,21 +244,26 @@ class Mayanum extends Cubit<EstadoMaya> {
   }
 
   generarNumeroVigesimal(int numeroMaya) {
-    if (state.randomNumber == 400) {
-      state.listaPuntos3.add(Punto());
-      emit(state.copyWith(concha1: Concha(), concha2: Concha()));
+    if (state.randomMayadec == 400) {
+      List<Punto> lista = [];
+      lista.add(Punto());
+      emit(state.copyWith(
+          concha1: Concha(), concha2: Concha(), listaPuntos3: lista));
       return;
     }
     int numeroDividido = numeroMaya ~/ 20;
     int lineas = calcularLineas(numeroDividido);
     int puntos = numeroDividido - (lineas * 5);
+    List<Linea> listalin = [];
+    List<Punto> puntoslist = [];
     for (var i = 0; i < puntos; i++) {
-      state.listaPuntos2.add(Punto());
+      puntoslist.add(Punto());
     }
     for (var i = 0; i < lineas; i++) {
-      state.listaLinea2.add(Linea());
+      listalin.add(Linea());
     }
-    emit(state.copyWith());
+    emit(state.copyWith(
+        concha1: Concha(), listaPuntos2: puntoslist, listaLinea2: listalin));
   }
 
   generarMayaRandom() {
@@ -210,6 +276,7 @@ class Mayanum extends Cubit<EstadoMaya> {
     state.listaPuntos1.clear();
     state.listaPuntos2.clear();
     state.listaPuntos3.clear();
+    emit(state.copyWith(concha1: null, concha2: null, concha3: null));
     for (var i = 0; i < puntosMaximo; i++) {
       if (Random().nextInt(6) == numeroSuertudo &&
           state.listaPuntos2.length < 4) {

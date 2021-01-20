@@ -11,10 +11,28 @@ class Pantalla extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<Mayanum, EstadoMaya>(builder: (context, estado) {
       if (estado.pantallaMayaDecimal) {
-        return MayaDecimal();
+        return Container(
+          decoration: BoxDecoration(
+            image: DecorationImage(
+              image: AssetImage("assets/images/fondo.jpg"),
+              fit: BoxFit.cover,
+            ),
+          ),
+          child: MayaDecimal(),
+        );
       }
       if (estado.pantallaDecimalMaya) {
-        return DecimalMaya();
+        return Container(
+          child: Container(
+            decoration: BoxDecoration(
+              image: DecorationImage(
+                image: AssetImage("assets/images/fondo.jpg"),
+                fit: BoxFit.cover,
+              ),
+            ),
+            child: DecimalMaya(),
+          ),
+        );
       }
       return Container();
     });

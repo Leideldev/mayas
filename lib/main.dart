@@ -47,7 +47,6 @@ class AppWidget extends StatelessWidget {
         floatingActionButton: FloatingActionButton(
           child: Icon(Icons.home),
           onPressed: () {
-            print("boton cambiar pantalla");
             context.bloc<Mayanum>().cambiarPantalla();
           },
         ),

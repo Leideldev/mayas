@@ -28,7 +28,7 @@ class DecimalMaya extends StatelessWidget {
                 child: InkWell(
                     child: Icon(Icons.healing_sharp),
                     onTap: () {
-                      context.bloc<Mayanum>().generarNuevoRandom();
+                      context.bloc<Mayanum>().generarNuevoRandomMaya();
                     }),
               ),
             ],
@@ -37,12 +37,14 @@ class DecimalMaya extends StatelessWidget {
               child: Container(
             child: Column(
               children: [
-                Nivel(3, estado.listaPuntos3, estado.listaLinea3),
-                Nivel(2, estado.listaPuntos2, estado.listaLinea2),
-                Nivel(1, estado.listaPuntos1, estado.listaLinea1),
+                Nivel(
+                    3, estado.listaPuntos3, estado.listaLinea3, estado.concha3),
+                Nivel(
+                    2, estado.listaPuntos2, estado.listaLinea2, estado.concha2),
+                Nivel(
+                    1, estado.listaPuntos1, estado.listaLinea1, estado.concha1),
               ],
             ),
-            color: Colors.blue,
           )),
           Expanded(
               child: Container(
